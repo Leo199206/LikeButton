@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 group = 'com.github.Leo199206'
 
 android {
-    compileSdk 34
+    compileSdk 32
 
     lintOptions {
         abortOnError false
@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         minSdkVersion 19
-        targetSdk 34
+        targetSdk 32
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
@@ -27,6 +27,6 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    api 'androidx.appcompat:appcompat:1.5.0'
+    api 'androidx.appcompat:appcompat:1.5.1'
     api "androidx.vectordrawable:vectordrawable:1.0.0"
 }
