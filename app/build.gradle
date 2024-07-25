@@ -24,7 +24,10 @@ android {
             v1SigningEnabled true
             v2SigningEnabled true
         }
-
+    }
+    publishing {
+        singleVariant("release")
+        singleVariant("debug")
     }
     buildTypes {
         release {
