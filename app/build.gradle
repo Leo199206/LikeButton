@@ -17,7 +17,7 @@ android {
     }
     signingConfigs {
         keystoreDebug {
-            storeFile file("${rootProject.projectDir}/LikeButton.keystore")
+            storeFile file("LikeButton.keystore")
             storePassword "88888888"
             keyAlias "LikeButton"
             keyPassword "88888888"
