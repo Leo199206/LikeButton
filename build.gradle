@@ -11,6 +11,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.2.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -28,7 +29,23 @@ allprojects {
     }
 }
 
-
+/**
+ * 编译项目时，执行清除Project的output文件
+ */
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+tasks.create('copyDeps', Copy, {
+    from(file('srcDir'))
+    into(buildDir)
+})
+
+/**
+ * 查看依赖树任务命令
+ * 终端执行：./gradlew allDeps 即可查看全部依赖关系
+ */
+subprojects {
+    task allDeps(type: DependencyReportTask) {}
+}
+

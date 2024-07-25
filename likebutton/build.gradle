@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
+apply plugin: 'kotlin-android'
 
-group = 'com.github.Leo199206'
 
 android {
     compileSdk 32
@@ -17,10 +17,6 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
     }
-    publishing {
-        singleVariant("release")
-        singleVariant("debug")
-    }
     buildTypes {
         release {
             minifyEnabled false
@@ -33,8 +29,72 @@ android {
     }
 }
 
+
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     api 'androidx.appcompat:appcompat:1.5.1'
     api "androidx.vectordrawable:vectordrawable:1.0.0"
+}
+
+/**
+ * 生成源码jar包task，type表示继承Jar打包任务。
+ */
+task sourcesJar(type: Jar) {
+    archiveClassifier.set("sources")
+    from android.sourceSets.main.java.srcDirs
+}
+
+/**
+ * 生成文档注释
+ */
+task androidJavadocs(type: Javadoc) {
+    failOnError = false
+    source = android.sourceSets.main.java.srcDirs
+    ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+    classpath += files(ext.androidJar)
+}
+
+/**
+ * 将源码打包，这一点对kotlin来说很重要，否则业务侧无法看到源码
+ */
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.srcDirs
+}
+
+/**
+ * 将文档打包成jar
+ */
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    archiveClassifier.set('javadoc')
+    from androidJavadocs.destinationDir
+}
+
+afterEvaluate { value ->
+    publishing {
+        publications {
+            // 库分组名称
+            def groupIdName = "com.github.Leo199206"
+            // 版本名称
+            def versionName = "1.0.4"
+            // 库名称
+            def libArtifactId = 'LikeButton'
+            // release版本发布
+            release(MavenPublication) {
+                from components.release
+                groupId groupIdName
+                artifactId libArtifactId
+                version versionName
+                //源码打包进aar
+                artifact(androidSourcesJar)
+                //将注释打包进aar
+                artifact(androidJavadocsJar)
+            }
+        }
+        repositories {
+            maven {
+                url uri("hhttps://jitpack.io")
+            }
+        }
+    }
 }
