@@ -58,7 +58,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 	...
-	compile 'com.github.Leo199206:LikeButton:1.0.0'
+	compile 'com.github.Leo199206:LikeButton:1.0.1'
 	}
 }
 ```
