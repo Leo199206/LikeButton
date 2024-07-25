@@ -4,64 +4,45 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.like.LikeButton;
 import com.like.OnAnimationEndListener;
 import com.like.OnLikeListener;
+import com.like.example.databinding.ActivityMainBinding;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements OnLikeListener,
-    OnAnimationEndListener {
+        OnAnimationEndListener {
 
     public static final String TAG = "MainActivity";
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.star_button)
-    LikeButton starButton;
-    @BindView(R.id.heart_button)
-    LikeButton likeButton;
-    @BindView(R.id.thumb_button)
-    LikeButton thumbButton;
-    @BindView(R.id.smile_button)
-    LikeButton smileButton;
-    @BindView(R.id.vector_android_button)
-    LikeButton vectorButton;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
 
-        starButton.setOnAnimationEndListener(this);
-        starButton.setOnLikeListener(this);
-
-        likeButton.setOnLikeListener(this);
-        likeButton.setOnAnimationEndListener(this);
-
-        smileButton.setOnLikeListener(this);
-        smileButton.setOnAnimationEndListener(this);
-
-        thumbButton.setOnLikeListener(this);
-        thumbButton.setOnAnimationEndListener(this);
-
-        thumbButton.setLiked(true);
-
-        vectorButton.setLikeDrawableTintColor(Color.GREEN);
-        vectorButton.setUnLikeDrawableTintColor(Color.BLACK);
+        binding.content.starButton.setOnAnimationEndListener(this);
+        binding.content.starButton.setOnLikeListener(this);
+        binding.content.likeButton.setOnLikeListener(this);
+        binding.content.likeButton.setOnAnimationEndListener(this);
+        binding.content.smileButton.setOnLikeListener(this);
+        binding.content.smileButton.setOnAnimationEndListener(this);
+        binding.content.thumbButton.setOnLikeListener(this);
+        binding.content.thumbButton.setOnAnimationEndListener(this);
+        binding.content.thumbButton.setLiked(true);
+        binding.content.vectorButton.setLikeDrawableTintColor(Color.GREEN);
+        binding.content.vectorButton.setUnLikeDrawableTintColor(Color.BLACK);
         usingCustomIcons();
 
     }
@@ -69,10 +50,10 @@ public class MainActivity extends AppCompatActivity implements OnLikeListener,
     public void usingCustomIcons() {
 
         //shown when the button is in its default state or when unLiked.
-        smileButton.setUnlikeDrawable(new BitmapDrawable(getResources(), new IconicsDrawable(this, CommunityMaterial.Icon.cmd_emoticon).colorRes(android.R.color.darker_gray).sizeDp(25).toBitmap()));
+        binding.content.smileButton.setUnlikeDrawable(new BitmapDrawable(getResources(), new IconicsDrawable(this, CommunityMaterial.Icon.cmd_emoticon).colorRes(android.R.color.darker_gray).sizeDp(25).toBitmap()));
 
         //shown when the button is liked!
-        smileButton.setLikeDrawable(new BitmapDrawable(getResources(), new IconicsDrawable(this, CommunityMaterial.Icon.cmd_emoticon).colorRes(android.R.color.holo_purple).sizeDp(25).toBitmap()));
+        binding.content.smileButton.setLikeDrawable(new BitmapDrawable(getResources(), new IconicsDrawable(this, CommunityMaterial.Icon.cmd_emoticon).colorRes(android.R.color.holo_purple).sizeDp(25).toBitmap()));
     }
 
     @Override
@@ -107,14 +88,13 @@ public class MainActivity extends AppCompatActivity implements OnLikeListener,
         Toast.makeText(this, "Disliked!", Toast.LENGTH_SHORT).show();
     }
 
-    @Override public void onAnimationEnd(LikeButton likeButton) {
+    @Override
+    public void onAnimationEnd(LikeButton likeButton) {
         Log.d(TAG, "Animation End for %s" + likeButton);
     }
 
-    @OnClick(R.id.button)
-    public void navigateToList()
-    {
-        Intent intent = new Intent(this,ListActivity.class);
+    public void navigateToList() {
+        Intent intent = new Intent(this, ListActivity.class);
         startActivity(intent);
     }
 }

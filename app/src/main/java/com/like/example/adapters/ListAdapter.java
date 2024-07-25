@@ -1,20 +1,18 @@
 package com.like.example.adapters;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.like.LikeButton;
 import com.like.example.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by joel on 3/3/18.
@@ -31,12 +29,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         this.activity = activity;
     }
 
-    private void generateNumbers()
-    {
+    private void generateNumbers() {
         numbers = new ArrayList<>();
 
-        for(int x=1;x<=max;x++)
-        {
+        for (int x = 1; x <= max; x++) {
             numbers.add(x);
         }
     }
@@ -50,14 +46,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
 
     @Override
     public void onBindViewHolder(ListViewHolder holder, int position) {
-
-        holder.title.setText(String.valueOf(position));
-        if(position%2==0)
-        {
-            holder.starButton.setLiked(true);
-        }
-        else
-            holder.starButton.setLiked(false);
+//
+//        holder.title.setText(String.valueOf(position));
+//        if (position % 2 == 0) {
+//            holder.starButton.setLiked(true);
+//        } else
+//            holder.starButton.setLiked(false);
 
     }
 
@@ -68,14 +62,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
 
 
     static class ListViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.title)
-        TextView title;
-        @BindView(R.id.star_button)
-        LikeButton starButton;
+//        @BindView(R.id.title)
+//        TextView title;
+//        @BindView(R.id.star_button)
+//        LikeButton starButton;
 
         ListViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this, view);
+//            ButterKnife.bind(this, view);
         }
     }
 }
