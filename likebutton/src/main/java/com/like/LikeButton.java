@@ -208,6 +208,11 @@ public class LikeButton extends FrameLayout implements View.OnClickListener {
         if (!isEnabled)
             return;
 
+
+        if (likeListener != null && likeListener.interceptLikeClick(this)) {
+            return;
+        }
+
         isChecked = !isChecked;
         if (likeListener != null) {
             if (isChecked) {
